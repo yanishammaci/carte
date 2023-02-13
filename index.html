@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css"
+     integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI="
+     crossorigin=""/>
+     <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"
+     integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM="
+     crossorigin=""></script>
+    <title>Document</title>
+    <style>
+        #map { height: 400px; width:50%; }
+        .image-pop{
+            border:blue solid 1px;
+            border-radius: 10px;
+            padding:10px;
+        }
+    </style>
+</head>
+<body>
+    <div id="map"></div>
+</body>
+<script>
+    //initialiser la map
+    var map = new L.Map('map', {
+        minZoom: 7,
+        maxZoom: 16,
+        
+
+    });
+
+    map.setView([48.866,2.33],13);
+    console.log(map)
+    var content=L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png')
+    content.addTo(map)
+
+
+
+  //ajouter les marqueurs  
+var points=[[48.866,2.33],[46.87,2.30]]
+for(var i=0;i<points.length;i++){
+    var marker = L.marker([points[i][0],points[i][1]],{title:"accident",opacity:0.8})
+    
+    marker.addTo(map)
+
+    //ajouter les popups
+    marker.bindPopup("<div class='image-pop'><p>n_accident=1222</p><p>date=12-02-2014</p><div>")
+    console.log(marker)
+        
+}
+console.log(marker)
+
+</script>
+</html>
