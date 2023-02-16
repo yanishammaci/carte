@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css"
+     integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI="
+     crossorigin=""/>
+     <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"
+     integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM="
+     crossorigin=""></script>
+     <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.0.3/dist/MarkerCluster.css">
+
+     <script src="https://unpkg.com/leaflet.markercluster@1.3.0/dist/leaflet.markercluster.js"></script>
+     <script src='https://unpkg.com/leaflet.markercluster@1.3.0/dist/leaflet.markercluster-src.js'></script>
+
+    <title>Document</title>
+    <style>
+        #map { height: 800px; width:50%; }
+        .image-pop{
+            border:blue solid 1px;
+            border-radius: 10px;
+            padding:10px;
+        }
+
+        
+    </style>
+</head>
+<body>
+    <div class="map" id="map"></div>
+</body>
+<script>
+    //initialiser la map
+    var map = new L.Map('map', {
+        minZoom: 2,
+        maxZoom: 16,
+        
+
+    });
+
+    map.setView([48.866,2.33],13);
+    var content=L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png')
+    content.addTo(map)
+
+
+
+  
+  var cities=[]  //créer un tableau pour rajouter les coordonnées 
+  var al=48.8,lng=2.3
+  for(var i=0;i<100;i++){
+    al+=0.01,lng+=0.01
+
+  
+    cities.push([al,lng]) //methode push pour les rajouter dans le tableau
+  }
+  //console.log(cities)
+  //console.log(cities.length)
+
+var markerCluster = new L.markerClusterGroup();  //créer un marqueurcluster pour regrouper les marqueurs
+
+var pop
+for (var i = 0; i < 100; i++) {
+    
+    marker=L.marker(cities[i]) //créer le marqueur
+    pop=L.popup({content:"accident n"+i})  
+    marker.bindPopup(pop)    //ajouter le popup
+    markerCluster.addLayer(marker); //ajouter les marqueurs au cluster
+    
+    
+}
+
+map.addLayer(markerCluster); //ajouter le cluster a la map
+
+
+function regrouper(){
+
+    
+        const noteSmall = document.getElementsByClassName("leaflet-marker-icon marker-cluster marker-cluster-small leaflet-zoom-animated leaflet-interactive ");
+        const noteMedium=document.getElementsByClassName("leaflet-marker-icon marker-cluster marker-cluster-medium leaflet-zoom-animated leaflet-interactive")
+        const noteLarge=document.getElementsByClassName("leaflet-marker-icon marker-cluster marker-cluster-large leaflet-zoom-animated leaflet-interactive")
+        //selectionner les objets  a chaque fois qu'on zoom ou on dezoom des numeros apparaissent pour indiquer le nombre de marqueurs regrouper
+        
+            
+        if(noteSmall.length>0){  //note sont des tableaux d'element
+            style(noteSmall)
+        }
+        if(noteMedium.length>0){
+            style(noteMedium)
+        }
+        if(noteLarge.length>0){
+            style(noteLarge) //appeler la fonction style
+        }
+    }
+
+        
+
+
+function style(note){ 
+    for(var i=0;i<note.length;i++){  //iterer le tableau pour styler les elements
+       
+        
+    
+        note[i].style.backgroundColor = 'gray'
+        note[i].style.paddingLeft="20px"
+        note[i].style.paddingTop="20px"
+        note[i].style.borderRadius="70px"
+        note[i].style.color = 'white' 
+        
+    }
+
+}  
+        
+        
+        
+    
+
+
+
+
+setInterval(regrouper, 500)  //on appel la fonction regrouper tous les 500ms
+
+
+
+</script>
+</html>
