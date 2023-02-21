@@ -35,7 +35,7 @@ export async function getDep(){
     //recuperer les données(nom,nombre d'accident) de tous les dep
     
     for(var i=0;i<data.facet_groups[0].facets.length;i++){ //iterer tous les dep
-        if(data.facet_groups[0].facets[i].count>=10000){ //si le nombre d'accident dans un dep >10000 on peut pas recuperer ses accident donc on va recuperer ses departement
+        if(data.facet_groups[0].facets[i].count>=10000){ //si le nombre d'accident dans un dep >10000 on peut pas recuperer ses accident donc on va recuperer ses communes
             const res1=await fetch("https://public.opendatasoft.com/api/records/1.0/search/?dataset=accidents-corporels-de-la-circulation-millesime&q=&rows=1&facet=nom_com&refine.dep_name="+data.facet_groups[0].facets[i].name)
             const data1=await res1.json()
             //recuperer les données(nom,nombre d'accident) de toutes les com  du dep
